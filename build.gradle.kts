@@ -68,7 +68,13 @@ legacyForge {
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
             programArguments.addAll(
-                "--mod", modId, "--all", "--output", file("src/generated/resources/").absolutePath, "--existing", file("src/main/resources/").absolutePath
+                "--mod",
+                modId,
+                "--all",
+                "--output",
+                file("src/generated/resources/").absolutePath,
+                "--existing",
+                file("src/main/resources/").absolutePath
             )
         }
 
@@ -117,16 +123,37 @@ repositories {
         url = uri("https://thedarkcolour.github.io/KotlinForForge/")
         content { includeGroup("thedarkcolour") }
     }
+    maven("https://raw.githubusercontent.com/Fuzss/modresources/main/maven")
     maven("https://maven.createmod.net")
     maven("https://modmaven.dev")
+    maven("https://maven.tterrag.com")
 }
 
 dependencies {
     val kotlinForForgeVersion = "4.11.0"
+    val mekanismVersion = "$mcVersion-10.4.0.14"
+    val ponderVersion = "1.0.73"
+    val flyWheelVersion = "1.0.4"
+    val jeiVersion = "15.20.0.106"
+    val createVersion = "6.0.4-79"
+    val registrateVersion = "MC1.20-1.3.3"
     val mixinExtraVersion = "0.4.1"
     val mixinVersion = "0.8.5"
 
     implementation("thedarkcolour:kotlinforforge:$kotlinForForgeVersion")
+
+    modImplementation("mekanism:Mekanism:$mekanismVersion")
+    modImplementation("net.createmod.ponder:Ponder-Forge-$mcVersion:$ponderVersion")
+    modApi("dev.engine-room.flywheel:flywheel-forge-api-$mcVersion:$flyWheelVersion")
+    modImplementation("dev.engine-room.flywheel:flywheel-forge-$mcVersion:$flyWheelVersion")
+
+    modCompileOnly("mezz.jei:jei-$mcVersion-forge-api:$jeiVersion")
+    modRuntimeOnly("mezz.jei:jei-$mcVersion-forge:$jeiVersion")
+
+    modImplementation("com.simibubi.create:create-$mcVersion:$createVersion:slim") {
+        isTransitive = false
+    }
+    modImplementation("com.tterrag.registrate:Registrate:$registrateVersion")
 
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:$mixinExtraVersion")!!)
     implementation("io.github.llamalad7:mixinextras-forge:$mixinExtraVersion")
